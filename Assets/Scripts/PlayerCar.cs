@@ -31,10 +31,10 @@ public class PlayerCar : MonoBehaviour
 		public float Sideways;
 	}
 	
-	public WheelSlipValues FrontLeftWheelSlip = new WheelSlipValues(0.8f, 0.92f, 0.05f, 0.5f);
-	public WheelSlipValues FrontRightWheelSlip = new WheelSlipValues(0.8f, 0.92f, 0.05f, 0.5f);
-	public WheelSlipValues RearLeftWheelSlip = new WheelSlipValues(0.8f, 0.92f, 0.05f, 0.5f);
-	public WheelSlipValues RearRightWheelSlip = new WheelSlipValues(0.8f, 0.92f, 0.05f, 0.5f);
+	public WheelSlipValues FrontLeftWheelSlip = new WheelSlipValues(0.6f, 0.92f, 0.01f, 0.5f);
+	public WheelSlipValues FrontRightWheelSlip = new WheelSlipValues(0.6f, 0.92f, 0.01f, 0.5f);
+	public WheelSlipValues RearLeftWheelSlip = new WheelSlipValues(0.6f, 0.92f, 0.01f, 0.5f);
+	public WheelSlipValues RearRightWheelSlip = new WheelSlipValues(0.6f, 0.92f, 0.01f, 0.5f);
 
 	// Brake lights
 	public GameObject BackLeftLight;
@@ -54,7 +54,7 @@ public class PlayerCar : MonoBehaviour
 	public float EngineTorque = 500.0f;
 	public float MaxEngineRPM = 8000.0f; 
 	public float MinEngineRPM = 1000.0f;
-	public float SteeringAngle = 15.0f;
+	public float SteeringAngle = 40.0f;
 	float SteeringAngleLocal;
 
 	private float EngineRPM = 0.0f;
@@ -74,7 +74,7 @@ public class PlayerCar : MonoBehaviour
 		FrontRightWheelSlip.Update();
 		RearLeftWheelSlip.Update();
 		RearRightWheelSlip.Update();
-
+		
 		UpdateStiffness(ref FrontLeftWheel  ,FrontLeftWheelSlip.Forward ,FrontLeftWheelSlip.Sideways);
 		UpdateStiffness(ref FrontRightWheel ,FrontRightWheelSlip.Forward,FrontRightWheelSlip.Sideways);
 		UpdateStiffness(ref RearLeftWheel   ,RearLeftWheelSlip.Forward	,RearLeftWheelSlip.Sideways);
@@ -117,16 +117,18 @@ public class PlayerCar : MonoBehaviour
 		{
 			if (handbrakeOn == CarTypes.ALL || handbrakeOn == CarTypes.FRONT)
 			{
-				FrontLeftWheel.brakeTorque += BrakeTorque;
+				FrontLeftWheel.brakeTorque = BrakeTorque;
 				UpdateMinMax(ref FrontLeftWheelSlip, ref FrontLeftWheel, true);
-				FrontRightWheel.brakeTorque += BrakeTorque;
+
+				FrontRightWheel.brakeTorque = BrakeTorque;
 				UpdateMinMax(ref FrontRightWheelSlip, ref FrontRightWheel, true);
 			}
 			if (handbrakeOn == CarTypes.ALL || handbrakeOn == CarTypes.REAR)
 			{
-				RearLeftWheel.brakeTorque += BrakeTorque;
+				RearLeftWheel.brakeTorque = BrakeTorque;
 				UpdateMinMax(ref RearLeftWheelSlip, ref RearLeftWheel, true);
-				RearRightWheel.brakeTorque += BrakeTorque;
+
+				RearRightWheel.brakeTorque = BrakeTorque;
 				UpdateMinMax(ref RearRightWheelSlip, ref RearRightWheel, true);
 			}
 		}

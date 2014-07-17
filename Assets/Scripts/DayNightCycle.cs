@@ -29,9 +29,12 @@ public class DayNightCycle : MonoBehaviour {
 
 	private bool lightExists;
 	private bool isSun;
+	private float xAmount;
 
 	void Start () {
+
 		lightDirectional = GetComponent<Light>();
+
 		if (lightDirectional != null)
 		{
 			lightExists = true;
@@ -48,10 +51,10 @@ public class DayNightCycle : MonoBehaviour {
 	void Update () {
 		if (HasLight())
 		{
-			float xAmount = lightDirectional.transform.rotation.eulerAngles.x;
+			lightDirectional.transform.Rotate(Rotational, rotationalAmount * Time.deltaTime, Space.World);
+			xAmount = lightDirectional.transform.rotation.eulerAngles.x;
 			GameParameters.timeOfDay = xAmount;
 
-			lightDirectional.transform.Rotate(Rotational, rotationalAmount * Time.deltaTime, Space.World);
 			lightDirectional.shadowStrength = lightPower * (xAmount / 180.0f) * ((isSun) ? sunColour.strength : moonColour.strength);
 
 			if (xAmount >= 180.0f)
@@ -62,7 +65,6 @@ public class DayNightCycle : MonoBehaviour {
 				lightDirectional.color = (isSun) ? sunColour.colour : moonColour.colour;
 				lightDirectional.shadowSoftness = (isSun) ? sunColour.softness : moonColour.softness;
 				lightDirectional.shadowSoftnessFade = (isSun) ? sunColour.fade : moonColour.fade;
-
 			}
 		}
 	}
